@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZZZ</title>
+<meta name="description" content="Léo — Modèle & Photographe basé à Paris. Portfolio en ligne.">
+<title>Léo · Modèle &amp; Photographe — Paris</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Special+Elite&display=swap');
 
@@ -609,6 +610,7 @@ canvas.px-canvas {
   </button>
   <span class="intro-label">zzz</span>
 </div>
+<span class="intro-label">entrer</span>
 
 <div id="screen-home" class="screen">
   <div id="smoke">
@@ -697,6 +699,7 @@ let mx = -2000, my = -2000;
 let currentScreen = 'intro';
 document.body.classList.add('on-intro');
 let totalPhotos = 0;
+let currentPhotoIdx = 0;
 
 const cursorEl  = $('cursor');
 const torchDiv  = $('torch');
@@ -1085,8 +1088,17 @@ function drawPixelPhoto(canvas, seed) {
   }
 }
 
+function goToPhoto(idx) {
+if (idx < 0 || idx >= totalPhotos) return;
+currentPhotoIdx = idx;
+$('strip').style.transform = `translateX(-${idx * 100}vw)`;
+updateDots(idx);
+updatePbar(idx);
+}
+
 function showPhotos(year) {
   totalPhotos = year.count;
+  currentPhotoIdx = 0;
   $('photo-year-label').textContent = year.label;
   const strip = $('strip'), dots = $('dots');
   strip.innerHTML = ''; dots.innerHTML = '';
@@ -1137,6 +1149,23 @@ function updatePbar(idx) {
 }
 $('back-photos').addEventListener('click', showYears);
 
+/* ── Touch/swipe support for photos ── */
+let touchStartX = 0;
+let touchStartY = 0;
+document.addEventListener('touchstart', e => {
+touchStartX = e.touches[0].clientX;
+touchStartY = e.touches[0].clientY;
+}, { passive: true });
+document.addEventListener('touchend', e => {
+if (currentScreen !== 'photos') return;
+const dx = e.changedTouches[0].clientX - touchStartX;
+const dy = e.changedTouches[0].clientY - touchStartY;
+if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+if (dx < 0) goToPhoto(currentPhotoIdx + 1);
+else goToPhoto(currentPhotoIdx - 1);
+}
+}, { passive: true });
+
 function showContact() { showScreen('screen-contact'); }
 $('back-contact').addEventListener('click', () => showScreen('screen-home'));
 
@@ -1144,7 +1173,14 @@ function showModel() { showScreen('screen-model'); }
 $('back-model').addEventListener('click', () => showScreen('screen-home'));
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && currentScreen !== 'home') showScreen('screen-home');
+if (e.key === 'Escape') {
+if (currentScreen === 'photos') { showYears(); return; }
+if (currentScreen !== 'home' && currentScreen !== 'intro') showScreen('screen-home');
+}
+if (currentScreen === 'photos') {
+if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goToPhoto(currentPhotoIdx + 1);
+if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goToPhoto(currentPhotoIdx - 1);
+}
 });
 
 window.addEventListener('resize', () => {
