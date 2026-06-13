@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Léo — Modèle & Photographe basé à Paris. Portfolio en ligne.">
 <title>Léo · Modèle &amp; Photographe — Paris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='16' y='24' text-anchor='middle' font-size='20' fill='%23e0d7c4' font-family='serif'>L</text></svg>">
+<meta name="color-scheme" content="dark">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://leoblack55.github.io/">
+<meta property="og:title" content="Léo · Modèle &amp; Photographe — Paris">
+<meta property="og:description" content="Léo — Modèle & Photographe basé à Paris. Portfolio en ligne.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Léo · Modèle & Photographe — Paris">
+<link rel="canonical" href="https://leoblack55.github.io/">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Special+Elite&display=swap');
 
@@ -437,6 +448,7 @@ body.on-intro #cursor {
   display: flex; height: 100%;
   transition: transform 0.9s cubic-bezier(0.23,1,0.32,1);
   will-change: transform;
+  touch-action: pan-y;
 }
 .photo-card {
   width: 100vw; height: 100vh;
@@ -591,6 +603,21 @@ canvas.px-canvas {
 }
 .model-thumb:nth-child(2) { transform: rotate(-1.6deg) translateY(4px); }
 .model-thumb:nth-child(3) { transform: rotate( 1.0deg) translateY(-2px); }
+
+/* ── keyboard focus ── */
+:focus-visible {
+outline: 2px solid rgba(224,215,196,0.7);
+outline-offset: 3px;
+}
+
+/* ── respect reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+*, *::before, *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+}
 </style>
 </head>
 <body>
