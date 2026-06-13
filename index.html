@@ -16,6 +16,9 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Léo · Modèle & Photographe — Paris">
 <link rel="canonical" href="https://leoblack55.github.io/">
+<meta name="theme-color" content="#000000">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Léo">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Special+Elite&display=swap');
 
@@ -618,6 +621,14 @@ outline-offset: 3px;
   transition-duration: 0.01ms !important;
 }
 }
+
+/* ── text selection ── */
+::selection { background: rgba(224,215,196,0.25); color: inherit; }
+
+/* ── hide scrollbar (body is overflow:hidden but belt-and-suspenders) ── */
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; }
+
 </style>
 </head>
 <body>
@@ -1213,6 +1224,11 @@ if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goToPhoto(currentPhotoIdx -
 window.addEventListener('resize', () => {
   ['grain-canvas','years-canvas','photos-canvas','contact-canvas','model-canvas']
     .forEach(id => { const c=$(id); if(c) makeGrain(c); });
+});
+
+/* protect photos from right-click save */
+document.addEventListener('contextmenu', function(e) {
+  if (e.target.closest('#screen-photos')) e.preventDefault();
 });
 </script>
 </body>
