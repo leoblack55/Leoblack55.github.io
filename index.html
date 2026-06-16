@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Léo — Modèle & Photographe basé à Paris. Portfolio en ligne.">
-<title>Léo · Modèle &amp; Photographe — Paris</title>
+<meta name="description" content="LÃ©o â ModÃ¨le & Photographe basÃ© Ã  Paris. Portfolio en ligne.">
+<title>LÃ©o Â· ModÃ¨le &amp; Photographe â Paris</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='16' y='24' text-anchor='middle' font-size='20' fill='%23e0d7c4' font-family='serif'>L</text></svg>">
 <meta name="color-scheme" content="dark">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://leoblack55.github.io/">
-<meta property="og:title" content="Léo · Modèle &amp; Photographe — Paris">
-<meta property="og:description" content="Léo — Modèle & Photographe basé à Paris. Portfolio en ligne.">
+<meta property="og:title" content="LÃ©o Â· ModÃ¨le &amp; Photographe â Paris">
+<meta property="og:description" content="LÃ©o â ModÃ¨le & Photographe basÃ© Ã  Paris. Portfolio en ligne.">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Léo · Modèle & Photographe — Paris">
-<meta name="twitter:description" content="Léo — Modèle &amp; Photographe basé à Paris. Portfolio en ligne.">
+<meta name="twitter:title" content="LÃ©o Â· ModÃ¨le & Photographe â Paris">
+<meta name="twitter:description" content="LÃ©o â ModÃ¨le &amp; Photographe basÃ© Ã  Paris. Portfolio en ligne.">
 <link rel="canonical" href="https://leoblack55.github.io/">
 <meta name="theme-color" content="#000000">
 <meta name="robots" content="index, follow">
-<meta name="author" content="Léo">
+<meta name="author" content="LÃ©o">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Special+Elite&display=swap');
 
@@ -30,9 +30,13 @@ html, body {
   background: #000;
   overflow: hidden;
   cursor: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* ── scanlines CRT / xero ── */
+/* ââ scanlines CRT / xero ââ */
 #scanlines {
   position: fixed; inset: 0;
   pointer-events: none; z-index: 8;
@@ -43,7 +47,7 @@ html, body {
   );
 }
 
-/* ── hachures diagonales permanentes (fond) ── */
+/* ââ hachures diagonales permanentes (fond) ââ */
 #hatch {
   position: fixed; inset: 0;
   pointer-events: none; z-index: 1;
@@ -55,7 +59,7 @@ html, body {
   );
 }
 
-/* ── curseur ── */
+/* ââ curseur ââ */
 #cursor {
   position: fixed;
   width: 3px; height: 3px;
@@ -74,7 +78,7 @@ body.on-intro #cursor {
   box-shadow: 0 0 5px rgba(30,26,20,0.25);
 }
 
-/* ── flash d'ignition sur contact Z ── */
+/* ââ flash d'ignition sur contact Z ââ */
 #z-flash {
   position: absolute; inset: 0;
   pointer-events: none; z-index: 4;
@@ -93,7 +97,7 @@ body.on-intro #cursor {
   animation: zShimmer 0.9s cubic-bezier(0.22,0.61,0.36,1) forwards;
 }
 
-/* ── voile sombre : couvre tout, trou au curseur = bougie ── */
+/* ââ voile sombre : couvre tout, trou au curseur = bougie ââ */
 #dark-veil {
   position: absolute; inset: 0;
   pointer-events: none; z-index: 3;
@@ -102,7 +106,7 @@ body.on-intro #cursor {
     rgba(0,0,0,0.92) 1px);
 }
 
-/* ── halo warm amber au-dessus de tout (screen additif = lumière chaude) ── */
+/* ââ halo warm amber au-dessus de tout (screen additif = lumiÃ¨re chaude) ââ */
 #torch {
   position: fixed; inset: 0;
   pointer-events: none; z-index: 9;
@@ -124,9 +128,9 @@ will-change: opacity;
 }
 .screen.active { display: block; opacity: 1; }
 
-/* ══════════════════════════════
-   INTRO — pièce éclairée
-══════════════════════════════ */
+/* ââââââââââââââââââââââââââââââ
+   INTRO â piÃ¨ce Ã©clairÃ©e
+ââââââââââââââââââââââââââââââ */
 #screen-intro {
   background: #d6d1c8;
   display: flex; align-items: center; justify-content: center;
@@ -177,14 +181,14 @@ will-change: opacity;
   color: rgba(40,36,30,0.28);
 }
 
-/* ══════════════════════════════
+/* ââââââââââââââââââââââââââââââ
    HOME
-══════════════════════════════ */
+ââââââââââââââââââââââââââââââ */
 #screen-home { overflow: hidden; }
 
-/* ══════════════════════════════
-   FUMÉE — 3 blobs légers (perf -60%)
-══════════════════════════════ */
+/* ââââââââââââââââââââââââââââââ
+   FUMÃE â 3 blobs lÃ©gers (perf -60%)
+ââââââââââââââââââââââââââââââ */
 #smoke {
   position: absolute; inset: 0;
   pointer-events: none; z-index: 1;
@@ -247,7 +251,7 @@ will-change: opacity;
   letter-spacing: -0.02em;
   user-select: none;
 
-  /* fond clair + lignes sombres fines = plaque métal gravée */
+  /* fond clair + lignes sombres fines = plaque mÃ©tal gravÃ©e */
   background:
     repeating-linear-gradient(
       -48deg,
@@ -359,9 +363,9 @@ pointer-events: none;
   margin: 5px auto 0;
 }
 
-/* ══════════════════════════════
-   BACK BUTTON — partagé
-══════════════════════════════ */
+/* ââââââââââââââââââââââââââââââ
+   BACK BUTTON â partagÃ©
+ââââââââââââââââââââââââââââââ */
 .back-btn {
   position: absolute; top: 16px; left: 20px; z-index: 5;
   font-family: 'Bebas Neue', Impact, sans-serif;
@@ -393,9 +397,9 @@ pointer-events: none;
     transparent 70%);
 }
 
-/* ══════════════════════════════
-   ANNÉES
-══════════════════════════════ */
+/* ââââââââââââââââââââââââââââââ
+   ANNÃES
+ââââââââââââââââââââââââââââââ */
 #screen-years { z-index: 10; }
 #years-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.78; }
 .years-inner {
@@ -454,9 +458,9 @@ pointer-events: none;
 .year-item:hover .year-num   { color: rgba(214,208,194,0.55); }
 .year-item:hover .year-count { color: rgba(214,208,194,0.42); }
 
-/* ══════════════════════════════
+/* ââââââââââââââââââââââââââââââ
    PHOTOS
-══════════════════════════════ */
+ââââââââââââââââââââââââââââââ */
 #screen-photos { z-index: 10; overflow: hidden; }
 #photos-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.78; }
 .strip-outer { position: absolute; inset: 0; z-index: 2; overflow: hidden; }
@@ -523,9 +527,9 @@ canvas.px-canvas {
   opacity: 1; transition: opacity 0.4s;
 }
 
-/* ══════════════════════════════
+/* ââââââââââââââââââââââââââââââ
    CONTACT
-══════════════════════════════ */
+ââââââââââââââââââââââââââââââ */
 #screen-contact { z-index: 10; }
 .contact-inner {
   position: absolute; inset: 0;
@@ -542,9 +546,9 @@ canvas.px-canvas {
   text-align: center;
 }
 
-/* ══════════════════════════════
+/* ââââââââââââââââââââââââââââââ
    MODEL
-══════════════════════════════ */
+ââââââââââââââââââââââââââââââ */
 #screen-model { z-index: 10; }
 .model-inner {
   position: absolute; inset: 0; z-index: 2;
@@ -620,13 +624,13 @@ canvas.px-canvas {
 .model-thumb:nth-child(2) { transform: rotate(-1.6deg) translateY(4px); }
 .model-thumb:nth-child(3) { transform: rotate( 1.0deg) translateY(-2px); }
 
-/* ── keyboard focus ── */
+/* ââ keyboard focus ââ */
 :focus-visible {
 outline: 2px solid rgba(224,215,196,0.7);
 outline-offset: 3px;
 }
 
-/* ── respect reduced motion ── */
+/* ââ respect reduced motion ââ */
 @media (prefers-reduced-motion: reduce) {
 *, *::before, *::after {
   animation-duration: 0.01ms !important;
@@ -635,14 +639,14 @@ outline-offset: 3px;
 }
 }
 
-/* ── text selection ── */
+/* ââ text selection ââ */
 ::selection { background: rgba(224,215,196,0.25); color: inherit; }
 
-/* ── hide scrollbar (body is overflow:hidden but belt-and-suspenders) ── */
+/* ââ hide scrollbar (body is overflow:hidden but belt-and-suspenders) ââ */
 ::-webkit-scrollbar { display: none; }
 * { scrollbar-width: none; }
 
-/* ── touch device: restore cursor ── */
+/* ââ touch device: restore cursor ââ */
 @media (pointer: coarse) {
   html, body { cursor: auto; }
   #cursor { display: none; }
@@ -650,7 +654,7 @@ outline-offset: 3px;
 
 </style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Person","name":"Léo","jobTitle":"Modèle & Photographe","address":{"@type":"PostalAddress","addressLocality":"Paris","addressCountry":"FR"},"url":"https://leoblack55.github.io/"}
+{"@context":"https://schema.org","@type":"Person","name":"LÃ©o","jobTitle":"ModÃ¨le & Photographe","address":{"@type":"PostalAddress","addressLocality":"Paris","addressCountry":"FR"},"url":"https://leoblack55.github.io/"}
 </script>
 </head>
 <body>
@@ -687,7 +691,7 @@ outline-offset: 3px;
     <div class="z-unit z1" data-section="photo" role="button" tabindex="0" aria-label="Photographie">
       <span class="z-label">Photography</span>
       <span class="z-glyph">Z</span>
-    </div><div class="z-unit z2" data-section="model" role="button" tabindex="0" aria-label="Modèle · Paris">
+    </div><div class="z-unit z2" data-section="model" role="button" tabindex="0" aria-label="ModÃ¨le Â· Paris">
       <span class="z-label">Model &middot; Paris</span>
       <span class="z-glyph">Z</span>
     </div><div class="z-unit z3" data-section="contact" role="button" tabindex="0" aria-label="Contact">
@@ -706,25 +710,25 @@ outline-offset: 3px;
 <div id="screen-years" class="screen">
   <canvas id="years-canvas"></canvas>
   <div class="years-inner" id="years-inner">
-    <button class="back-btn" id="back-years" aria-label="Retour à l'accueil">&larr;&nbsp;&nbsp;zzz</button>
+    <button class="back-btn" id="back-years" aria-label="Retour Ã  l'accueil">&larr;&nbsp;&nbsp;zzz</button>
   </div>
 </div>
 
 <div id="screen-photos" class="screen">
   <canvas id="photos-canvas"></canvas>
-  <button class="back-btn" id="back-photos" aria-label="Retour aux années">&larr;&nbsp;&nbsp;ann&eacute;es</button>
+  <button class="back-btn" id="back-photos" aria-label="Retour aux annÃ©es">&larr;&nbsp;&nbsp;ann&eacute;es</button>
   <div class="strip-outer">
     <div class="strip-inner" id="strip"></div>
   </div>
   <div class="dot-row" id="dots"></div>
   <div class="progress-bar" id="pbar"></div>
-<div class="nav-hint" id="nav-hint">← →</div>
+<div class="nav-hint" id="nav-hint">â â</div>
   <div class="photo-year-label" id="photo-year-label"></div>
 </div>
 
 <div id="screen-contact" class="screen">
   <canvas id="contact-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:1;opacity:0.78;"></canvas>
-  <button class="back-btn" id="back-contact" aria-label="Retour à l'accueil">&larr;&nbsp;&nbsp;zzz</button>
+  <button class="back-btn" id="back-contact" aria-label="Retour Ã  l'accueil">&larr;&nbsp;&nbsp;zzz</button>
   <div class="contact-inner">
     <div class="contact-name">l&eacute;o</div>
   </div>
@@ -732,7 +736,7 @@ outline-offset: 3px;
 
 <div id="screen-model" class="screen">
   <canvas id="model-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:1;opacity:0.78;"></canvas>
-  <button class="back-btn" id="back-model" aria-label="Retour à l'accueil">&larr;&nbsp;&nbsp;zzz</button>
+  <button class="back-btn" id="back-model" aria-label="Retour Ã  l'accueil">&larr;&nbsp;&nbsp;zzz</button>
   <div class="model-inner">
     <div class="model-photo-slot">
       <div class="model-photo-label">[ photo ]</div>
@@ -865,7 +869,7 @@ function triggerIgnite(i) {
 const R_FULL = 8;
 const R_FADE = 140;
 
-const LABEL_TEXTS = ['Photography', 'Model·Paris', 'Contact', 'Archive', 'About'];
+const LABEL_TEXTS = ['Photography', 'ModelÂ·Paris', 'Contact', 'Archive', 'About'];
 const labelFloat  = document.getElementById('z-label-float');
 const zGlowEl     = document.getElementById('z-glow');
 
@@ -1212,7 +1216,7 @@ function updatePbar(idx) {
 }
 $('back-photos').addEventListener('click', showYears);
 
-/* ── Touch/swipe support for photos ── */
+/* ââ Touch/swipe support for photos ââ */
 let touchStartX = 0;
 let touchStartY = 0;
 document.addEventListener('touchstart', e => {
@@ -1246,14 +1250,23 @@ if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goToPhoto(currentPhotoIdx -
 }
 });
 
+let _resizeTimer;
 window.addEventListener('resize', () => {
-  ['grain-canvas','years-canvas','photos-canvas','contact-canvas','model-canvas']
-    .forEach(id => { const c=$(id); if(c) makeGrain(c); });
+  clearTimeout(_resizeTimer);
+  _resizeTimer = setTimeout(() => {
+    ['grain-canvas','years-canvas','photos-canvas','contact-canvas','model-canvas']
+        .forEach(id => { const c=$(id); if(c) makeGrain(c); });
+  }, 150);
 });
 
 /* protect photos from right-click save */
 document.addEventListener('contextmenu', function(e) {
   if (e.target.closest('#screen-photos')) e.preventDefault();
+});
+
+/* resume animation when tab regains focus */
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) masterLoop();
 });
 </script>
 </body>
