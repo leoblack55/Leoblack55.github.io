@@ -15,6 +15,7 @@
 <meta property="og:description" content="Léo — Modèle & Photographe basé à Paris. Portfolio en ligne.">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Léo · Modèle & Photographe — Paris">
+<meta name="twitter:description" content="Léo — Modèle &amp; Photographe basé à Paris. Portfolio en ligne.">
 <link rel="canonical" href="https://leoblack55.github.io/">
 <meta name="theme-color" content="#000000">
 <meta name="robots" content="index, follow">
@@ -319,6 +320,17 @@ body.on-intro #cursor {
 
 .z-label { display: none; }
 #z-glow { display: none; }
+
+/* z-glow visible state */
+#z-glow.visible {
+display: block;
+position: fixed;
+z-index: 7;
+border-radius: 50%;
+background: radial-gradient(circle, rgba(235,215,165,0.10) 0%, transparent 68%);
+transform: translate(-50%, -50%);
+pointer-events: none;
+}
 
 /* label flottant unique */
 #z-label-float {
@@ -647,8 +659,8 @@ outline-offset: 3px;
     </svg>
   </button>
   <span class="intro-label">zzz</span>
-</div>
 <span class="intro-label">entrer</span>
+</div>
 
 <div id="screen-home" class="screen">
   <div id="smoke">
@@ -684,13 +696,13 @@ outline-offset: 3px;
 <div id="screen-years" class="screen">
   <canvas id="years-canvas"></canvas>
   <div class="years-inner" id="years-inner">
-    <button class="back-btn" id="back-years">&larr;&nbsp;&nbsp;zzz</button>
+    <button class="back-btn" id="back-years" aria-label="Retour à l'accueil">&larr;&nbsp;&nbsp;zzz</button>
   </div>
 </div>
 
 <div id="screen-photos" class="screen">
   <canvas id="photos-canvas"></canvas>
-  <button class="back-btn" id="back-photos">&larr;&nbsp;&nbsp;ann&eacute;es</button>
+  <button class="back-btn" id="back-photos" aria-label="Retour aux années">&larr;&nbsp;&nbsp;ann&eacute;es</button>
   <div class="strip-outer">
     <div class="strip-inner" id="strip"></div>
   </div>
@@ -701,7 +713,7 @@ outline-offset: 3px;
 
 <div id="screen-contact" class="screen">
   <canvas id="contact-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:1;opacity:0.78;"></canvas>
-  <button class="back-btn" id="back-contact">&larr;&nbsp;&nbsp;zzz</button>
+  <button class="back-btn" id="back-contact" aria-label="Retour à l'accueil">&larr;&nbsp;&nbsp;zzz</button>
   <div class="contact-inner">
     <div class="contact-name">l&eacute;o</div>
   </div>
@@ -709,7 +721,7 @@ outline-offset: 3px;
 
 <div id="screen-model" class="screen">
   <canvas id="model-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:1;opacity:0.78;"></canvas>
-  <button class="back-btn" id="back-model">&larr;&nbsp;&nbsp;zzz</button>
+  <button class="back-btn" id="back-model" aria-label="Retour à l'accueil">&larr;&nbsp;&nbsp;zzz</button>
   <div class="model-inner">
     <div class="model-photo-slot">
       <div class="model-photo-label">[ photo ]</div>
@@ -1073,6 +1085,7 @@ const YEARS = [
 ];
 
 function showYears() {
+  const yc = $('years-canvas'); if (yc && !yc._grain) { makeGrain(yc); yc._grain = true; }
   const inner = $('years-inner');
   inner.querySelectorAll('.year-item').forEach(e => e.remove());
   YEARS.forEach((y, i) => {
@@ -1159,6 +1172,7 @@ function showPhotos(year) {
       } else {
         const next = idx + 1;
         if (next < totalPhotos) {
+          currentPhotoIdx = next;
           strip.style.transform = `translateX(-${next * 100}vw)`;
           updateDots(next);
           updatePbar(next);
@@ -1204,10 +1218,10 @@ else goToPhoto(currentPhotoIdx - 1);
 }
 }, { passive: true });
 
-function showContact() { showScreen('screen-contact'); }
+function showContact() { const cc = $('contact-canvas'); if (cc && !cc._grain) { makeGrain(cc); cc._grain = true; } showScreen('screen-contact'); }
 $('back-contact').addEventListener('click', () => showScreen('screen-home'));
 
-function showModel() { showScreen('screen-model'); }
+function showModel() { const mc = $('model-canvas'); if (mc && !mc._grain) { makeGrain(mc); mc._grain = true; } showScreen('screen-model'); }
 $('back-model').addEventListener('click', () => showScreen('screen-home'));
 
 document.addEventListener('keydown', e => {
