@@ -120,6 +120,7 @@ body.on-intro #cursor {
   display: none;
   opacity: 0;
   transition: opacity 0.55s ease;
+will-change: opacity;
 }
 .screen.active { display: block; opacity: 1; }
 
@@ -189,7 +190,7 @@ body.on-intro #cursor {
   pointer-events: none; z-index: 1;
   overflow: hidden;
 }
-.smk { position: absolute; border-radius: 50%; }
+.smk { position: absolute; border-radius: 50%; will-change: transform; }
 
 @keyframes smkA {
   0%,100% { transform: translate(0,0) scale(1); }
@@ -641,7 +642,16 @@ outline-offset: 3px;
 ::-webkit-scrollbar { display: none; }
 * { scrollbar-width: none; }
 
+/* ── touch device: restore cursor ── */
+@media (pointer: coarse) {
+  html, body { cursor: auto; }
+  #cursor { display: none; }
+}
+
 </style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Léo","jobTitle":"Modèle & Photographe","address":{"@type":"PostalAddress","addressLocality":"Paris","addressCountry":"FR"},"url":"https://leoblack55.github.io/"}
+</script>
 </head>
 <body>
 
@@ -674,13 +684,13 @@ outline-offset: 3px;
   <div id="z-glow"></div>
   <div id="z-flash"></div>
   <div id="zzz-row">
-    <div class="z-unit z1" data-section="photo">
+    <div class="z-unit z1" data-section="photo" role="button" tabindex="0" aria-label="Photographie">
       <span class="z-label">Photography</span>
       <span class="z-glyph">Z</span>
-    </div><div class="z-unit z2" data-section="model">
+    </div><div class="z-unit z2" data-section="model" role="button" tabindex="0" aria-label="Modèle · Paris">
       <span class="z-label">Model &middot; Paris</span>
       <span class="z-glyph">Z</span>
-    </div><div class="z-unit z3" data-section="contact">
+    </div><div class="z-unit z3" data-section="contact" role="button" tabindex="0" aria-label="Contact">
       <span class="z-label">Contact</span>
       <span class="z-glyph">Z</span>
     </div><div class="z-unit z4">
@@ -708,6 +718,7 @@ outline-offset: 3px;
   </div>
   <div class="dot-row" id="dots"></div>
   <div class="progress-bar" id="pbar"></div>
+<div class="nav-hint" id="nav-hint">← →</div>
   <div class="photo-year-label" id="photo-year-label"></div>
 </div>
 
@@ -774,7 +785,6 @@ function moveDarkVeil(x, y) {
     ` rgba(0,0,0,0.97)   450px)`;
 }
 
-moveTorch(-2000, -2000);
 moveDarkVeil(-2000, -2000);
 
 document.addEventListener('mousemove', e => {
@@ -1145,6 +1155,7 @@ currentPhotoIdx = idx;
 $('strip').style.transform = `translateX(-${idx * 100}vw)`;
 updateDots(idx);
 updatePbar(idx);
+const nh = $('nav-hint'); if (nh) { nh.style.opacity = '0'; }
 }
 
 function showPhotos(year) {
