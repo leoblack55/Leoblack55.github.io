@@ -333,7 +333,7 @@ display: block;
 position: fixed;
 z-index: 7;
 border-radius: 50%;
-background: radial-gradient(circle, rgba(235,215,165,0.10) 0%, transparent 68%);
+background: radial-gradient(circle, rgba(235,215,165,0.42) 0%, rgba(220,195,118,0.12) 50%, transparent 72%);
 transform: translate(-50%, -50%);
 pointer-events: none;
 }
@@ -893,10 +893,12 @@ const LABEL_TEXTS = ['Photographie', 'Modèle · Paris', 'Contact', 'Archives'
 const labelFloat  = document.getElementById('z-label-float');
 const zGlowEl     = document.getElementById('z-glow');
 
+let glowX=-2000,glowY=-2000,glowOp=0,glowW=200,glowH=100;
+let glowTX=-2000,glowTY=-2000,glowTOp=0,glowTW=200,glowTH=100;
 function rafLoop() {
   if (currentScreen === 'home') {
     let labelShown = false;
-    let glowShown  = false;
+    let bestD = Infinity, bestR = null;
 
     zUnits.forEach((u, i) => {
       const r  = u.getBoundingClientRect();
@@ -920,24 +922,40 @@ function rafLoop() {
         labelShown = true;
       }
 
-      if (d <= 60 && u.dataset.section && !glowShown) {
-        const cx = r.left + r.width  * 0.5;
-        const cy = r.top  + r.height * 0.5;
-        zGlowEl.style.left   = cx + 'px';
-        zGlowEl.style.top    = cy + 'px';
-        zGlowEl.style.width  = (r.width  * 1.9) + 'px';
-        zGlowEl.style.height = (r.height * 1.5) + 'px';
-        zGlowEl.classList.add('visible');
-        glowShown = true;
-      }
-
+      if (u.dataset.section && d < bestD) { bestD = d; bestR = r; }
       const entered = d <= 20;
       if (entered && !zEnteredState[i]) triggerIgnite(i);
       zEnteredState[i] = entered;
     });
 
     if (!labelShown) labelFloat.classList.remove('visible');
-    if (!glowShown)  zGlowEl.classList.remove('visible');
+    const GLOW_RANGE = 90;
+    if (bestR && bestD < GLOW_RANGE) {
+      const zCx = bestR.left + bestR.width  * 0.5;
+      const zCy = bestR.top  + bestR.height * 0.5;
+      const blend = bestD / GLOW_RANGE;
+      glowTX  = bestD === 0 ? mx * 0.92 + zCx * 0.08 : zCx;
+      glowTY  = bestD === 0 ? my * 0.92 + zCy * 0.08 : zCy;
+      glowTOp = (1 - blend) * (bestD === 0 ? 1 : 0.6);
+      glowTW  = bestR.width  * (1.4 + (1 - blend) * 0.5);
+      glowTH  = bestR.height * (0.65 + (1 - blend) * 0.35);
+    } else { glowTOp = 0; }
+    const glr = 0.14;
+    glowX  += (glowTX  - glowX)  * glr;
+    glowY  += (glowTY  - glowY)  * glr;
+    glowOp += (glowTOp - glowOp) * 0.10;
+    glowW  += (glowTW  - glowW)  * glr;
+    glowH  += (glowTH  - glowH)  * glr;
+    if (glowOp > 0.008) {
+      zGlowEl.style.left    = glowX  + 'px';
+      zGlowEl.style.top     = glowY  + 'px';
+      zGlowEl.style.width   = glowW  + 'px';
+      zGlowEl.style.height  = glowH  + 'px';
+      zGlowEl.style.opacity = glowOp;
+      if (!zGlowEl.classList.contains('visible')) zGlowEl.classList.add('visible');
+    } else {
+      if (zGlowEl.classList.contains('visible')) zGlowEl.classList.remove('visible');
+    }
   }
   requestAnimationFrame(rafLoop);
 }
