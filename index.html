@@ -1049,7 +1049,7 @@ function masterLoop() {
   }
   trail.forEach((p, i) => {
     const a = (1 - i / TRAIL_LEN) * 0.20;
-    p.el.style.left=p.x+'px';p.el.style.top=p.y+'px';p.el.style.background='rgba(224,200,150,'+a+')';'
+    p.el.style.left=p.x+'px';p.el.style.top=p.y+'px';p.el.style.background='rgba(224,200,150,'+a+')';
   });
 
   if (currentScreen === 'home') {
