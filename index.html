@@ -556,83 +556,61 @@ canvas.px-canvas {
   text-align: center;
 }
 
-/* ââââââââââââââââââââââââââââââ
-   MODEL
-ââââââââââââââââââââââââââââââ */
-#screen-model { z-index: 10; }
-.model-inner {
+/* ── MODEL GALLERY ── */
+#screen-model { z-index: 10; overflow: hidden; }
+#model-slides {
   position: absolute; inset: 0; z-index: 2;
-  display: flex; align-items: center;
-  padding: 0 7vw; gap: 5vw;
+  display: flex;
+  transition: transform 0.9s cubic-bezier(0.23,1,0.32,1);
+  will-change: transform;
 }
-.model-photo-slot {
-  width: 33vw; height: 66vh;
-  border: 0.5px solid rgba(214,208,194,0.07);
-  flex-shrink: 0; position: relative; overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
+.model-slide {
+  width: 100vw; height: 100vh;
+  flex-shrink: 0; position: relative;
+  background: #080706; overflow: hidden;
 }
-.model-photo-slot::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: repeating-linear-gradient(
-    -45deg,
-    rgba(214,208,194,0.022) 0, rgba(214,208,194,0.022) 1px,
-    transparent 1px, transparent 9px
-  );
+.model-slide img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  display: block; opacity: 0;
+  transition: opacity 1.4s ease;
+  user-select: none; pointer-events: none;
 }
-.model-photo-label {
+.model-slide img.loaded { opacity: 1; }
+.model-nav-zone {
+  position: absolute; top: 0; bottom: 0; width: 35%;
+  z-index: 5; cursor: none;
+}
+#model-nav-prev { left: 0; }
+#model-nav-next { right: 0; }
+#model-shoot-label {
+  position: absolute; bottom: 42px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
   font-family: 'Special Elite', monospace;
-  font-size: 7px; letter-spacing: 0.38em;
-  color: rgba(214,208,194,0.12);
-  position: relative; z-index: 1;
+  font-size: 7px; letter-spacing: 0.44em; text-transform: uppercase;
+  color: rgba(214,208,194,0.22);
+  white-space: nowrap; pointer-events: none;
 }
-.model-info { flex: 1; display: flex; flex-direction: column; gap: 1.3vh; }
+#model-dots { z-index: 6; bottom: 18px; }
+#model-info-overlay {
+  position: absolute; top: 58px; right: 24px;
+  z-index: 6; text-align: right; pointer-events: none;
+}
 .model-name-big {
   font-family: 'Bebas Neue', Impact, sans-serif;
-  font-size: clamp(50px, 7.5vw, 105px);
+  font-size: clamp(28px, 4vw, 58px);
   letter-spacing: 0.05em; line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 0.7px rgba(214,208,194,0.52);
+  -webkit-text-stroke: 0.5px rgba(214,208,194,0.28);
   display: inline-block;
   transform: skewX(-7deg);
 }
-.model-agency {
+.model-agency-line {
   font-family: 'Special Elite', monospace;
-  font-size: 7px; letter-spacing: 0.46em; text-transform: uppercase;
-  color: rgba(214,208,194,0.20);
-  margin-top: 0.3vh;
+  font-size: 7px; letter-spacing: 0.40em; text-transform: uppercase;
+  color: rgba(214,208,194,0.14); margin-top: 4px;
 }
-.model-divider {
-  width: 32px; height: 0.5px;
-  background: rgba(214,208,194,0.10);
-  margin: 0.8vh 0;
-}
-.model-stat {
-  font-family: 'Special Elite', monospace;
-  font-size: 8px; letter-spacing: 0.18em;
-  color: rgba(214,208,194,0.24);
-  padding: 0.6vh 0;
-  border-bottom: 0.5px solid rgba(214,208,194,0.05);
-}
-.model-stat:last-of-type { border-bottom: none; }
-.model-thumbs {
-  display: flex; gap: 1.1vw; margin-top: 1.8vh; align-items: flex-end;
-}
-.model-thumb {
-  width: 7.5vw; height: 10vw;
-  border: 0.5px solid rgba(214,208,194,0.07);
-  flex-shrink: 0; position: relative; overflow: hidden;
-}
-.model-thumb::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: repeating-linear-gradient(
-    -45deg, rgba(214,208,194,0.018) 0, rgba(214,208,194,0.018) 1px,
-    transparent 1px, transparent 8px
-  );
-}
-.model-thumb:nth-child(2) { transform: rotate(-1.6deg) translateY(4px); }
-.model-thumb:nth-child(3) { transform: rotate( 1.0deg) translateY(-2px); }
 
 /* ââ keyboard focus ââ */
 button,[role="button"]{touch-action:manipulation;}
@@ -749,23 +727,14 @@ outline-offset: 3px;
 <div id="screen-model" class="screen">
   <canvas id="model-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:1;opacity:0.78;"></canvas>
   <button class="back-btn" id="back-model" aria-label="Retour à l'accueil">&larr;&nbsp;&nbsp;zzz</button>
-  <div class="model-inner">
-    <div class="model-photo-slot">
-      <div class="model-photo-label">[ photo ]</div>
-    </div>
-    <div class="model-info">
-      <div class="model-name-big">L&eacute;o</div>
-      <div class="model-agency">Model &middot; Paris Agency</div>
-      <div class="model-divider"></div>
-      <div class="model-stat">Height &middot;&nbsp; &mdash; cm</div>
-      <div class="model-stat">Chest &nbsp;&middot;&nbsp; &mdash; cm</div>
-      <div class="model-stat">Waist &nbsp;&middot;&nbsp; &mdash; cm</div>
-      <div class="model-thumbs">
-        <div class="model-thumb"></div>
-        <div class="model-thumb"></div>
-        <div class="model-thumb"></div>
-      </div>
-    </div>
+    <div id="model-slides"></div>
+  <div id="model-nav-prev" class="model-nav-zone" aria-label="Photo précédente"></div>
+  <div id="model-nav-next" class="model-nav-zone" aria-label="Photo suivante"></div>
+  <div class="dot-row" id="model-dots"></div>
+  <div id="model-shoot-label"></div>
+  <div id="model-info-overlay">
+    <div class="model-name-big">L&eacute;o</div>
+    <div class="model-agency-line">Mod&egrave;le &middot; Paris</div>
   </div>
 </div>
 
@@ -1271,21 +1240,68 @@ touchStartX = e.touches[0].clientX;
 touchStartY = e.touches[0].clientY;
 }, { passive: true });
 document.addEventListener('touchend', e => {
-if (currentScreen !== 'photos') return;
+if (currentScreen !== 'photos' && currentScreen !== 'model') return;
 const dx = e.changedTouches[0].clientX - touchStartX;
 const dy = e.changedTouches[0].clientY - touchStartY;
 if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+if (currentScreen === 'model') {
+if (dx < 0) goToModelPhoto(modelIdx + 1);
+else goToModelPhoto(modelIdx - 1);
+} else {
 if (dx < 0) goToPhoto(currentPhotoIdx + 1);
 else goToPhoto(currentPhotoIdx - 1);
+}
 }
 }, { passive: true });
 
 function showContact() { const cc = $('contact-canvas'); if (cc && !cc._grain) { makeGrain(cc); cc._grain = true; } showScreen('screen-contact'); }
 $('back-contact').addEventListener('click', () => showScreen('screen-home'));
 
-function showModel() { const mc = $('model-canvas'); if (mc && !mc._grain) { makeGrain(mc); mc._grain = true; } showScreen('screen-model'); }
-$('back-model').addEventListener('click', () => showScreen('screen-home'));
-
+const MODEL_PHOTOS = [
+  {id:'1UbqyMxs6zpTXIZ54mvVq4An88KhXwr6X',shoot:'Toronto · Studio'},
+  {id:'1ec5qKHkWAaKe47vq6EXCaVL9ZqKKq2Bp',shoot:'Toronto · Studio'},
+  {id:'1TmJ4-mbN7aoYXrFa9ghz7Woz6bdvjXVT',shoot:'Toronto · Studio'},
+  {id:'1LnsW4prBpkMoPpHPbreSxQjqXphpLzii',shoot:'Toronto · Studio'},
+  {id:'1Bf3y_8W6ZetV-calEU8dEyruwx2mxnXk',shoot:'Toronto · Studio'},
+  {id:'1hxoCBi_3HpDK2SI1z0MUWSGqX5yw5J6q',shoot:'Toronto · Studio'},
+  {id:'1u8MiO6gIQqy-n1C4QhWeFOwlM7IMQo91',shoot:'Toronto · Studio'},
+  {id:'1tNQ3DowebXr5FD-SY51oJ04oLN1Ei3Q4',shoot:'Toronto · Studio'},
+  {id:'1xj5HGx6ZGuAgynfzGjX3XUySpjTFjNyp',shoot:'Toronto · Studio'},
+  {id:'1iJygmJeI9r_Zf2dgXzM4Pb-CZp_n2cks',shoot:'Toronto · Film'},
+  {id:'1vwkZozqmkbw5FKKKLrSeVJMrKuMZY8na',shoot:'Toronto · Film'},
+  {id:'1E0S2nPrwZnACw9v1iyDCnJ-RIK56Mtn-',shoot:'Paris'},
+  {id:'1FsORJrcgdmbDzPxIiO_Ly--5p_o82TX_',shoot:'Paris'},
+  {id:'1SNwUew8mIUcu-7bpPIrHm2da8mRONx3q',shoot:'Paris'},
+  {id:'1NRFmH1zFAqDVlyHgwp00TzStkDzyqdwb',shoot:'Paris'},
+  {id:'1adnSZDVufPHvjE8JH9C9i3R284xgTx6Q',shoot:'Paris · Argentique'},
+  {id:'1VLiXJbXs1uY0xxAhlO36oDPWNNJ8D1U_',shoot:'Paris · Argentique'},
+];
+let modelIdx=0,modelBuilt=false;
+function buildModelSlides(){
+  if(modelBuilt)return;modelBuilt=true;
+  const sl=$('model-slides'),dt=$('model-dots');
+  sl.innerHTML='';dt.innerHTML='';
+  MODEL_PHOTOS.forEach((ph,i)=>{
+    const slide=document.createElement('div');slide.className='model-slide';
+    const img=document.createElement('img');
+    img.src='https://drive.google.com/thumbnail?id='+ph.id+'&sz=w1920';
+    img.alt='Shoot '+ph.shoot+' — '+(i+1);img.draggable=false;
+    img.addEventListener('load',()=>img.classList.add('loaded'));
+    slide.appendChild(img);sl.appendChild(slide);
+    const d=document.createElement('div');d.className='dot'+(i===0?' on':'');dt.appendChild(d);
+  });
+}
+function goToModelPhoto(idx){
+  if(idx<0||idx>=MODEL_PHOTOS.length)return;
+  modelIdx=idx;
+  $('model-slides').style.transform='translateX(-'+(idx*100)+'vw)';
+  document.querySelectorAll('#model-dots .dot').forEach((d,i)=>d.classList.toggle('on',i===idx));
+  const sl=$('model-shoot-label');if(sl)sl.textContent=MODEL_PHOTOS[idx].shoot;
+}
+function showModel(){const mc=$('model-canvas');if(mc&&!mc._grain){makeGrain(mc);mc._grain=true;}buildModelSlides();goToModelPhoto(0);showScreen('screen-model');}
+$('back-model').addEventListener('click',()=>showScreen('screen-home'));
+$('model-nav-prev').addEventListener('click',()=>goToModelPhoto(modelIdx-1));
+$('model-nav-next').addEventListener('click',()=>goToModelPhoto(modelIdx+1));
 document.addEventListener('keydown', e => {
 if (e.key === 'Escape') {
 if (currentScreen === 'photos') { showYears(); return; }
@@ -1294,6 +1310,10 @@ if (currentScreen !== 'home' && currentScreen !== 'intro') showScreen('screen-ho
 if (currentScreen === 'photos') {
 if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goToPhoto(currentPhotoIdx + 1);
 if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goToPhoto(currentPhotoIdx - 1);
+}
+if (currentScreen === 'model') {
+if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goToModelPhoto(modelIdx + 1);
+if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goToModelPhoto(modelIdx - 1);
 }
 });
 
