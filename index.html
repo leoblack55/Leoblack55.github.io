@@ -458,6 +458,15 @@ pointer-events: none;
 }
 .year-item:hover .year-num   { color: rgba(214,208,194,0.55); }
 .year-item:hover .year-count { color: rgba(214,208,194,0.42); }
+/* keyboard focus styles for year items */
+.year-item:focus-visible .year-text {
+  color: rgba(230,218,195,0.96);
+  -webkit-text-stroke: 0px;
+  letter-spacing: 0.07em;
+  text-shadow: 0 0 22px rgba(218,195,148,0.45), 0 0 55px rgba(218,195,148,0.18);
+}
+.year-item:focus-visible .year-num { color: rgba(214,208,194,0.55); }
+.year-item:focus-visible .year-count { color: rgba(214,208,194,0.42); }
 
 /* ââââââââââââââââââââââââââââââ
    PHOTOS
@@ -794,6 +803,14 @@ function moveDarkVeil(x, y) {
 
 moveDarkVeil(-2000, -2000);
 
+document.addEventListener('mouseleave', () => {
+mx = -2000; my = -2000;
+cursorEl.style.left = '-50px';
+cursorEl.style.top = '-50px';
+moveDarkVeil(-2000, -2000);
+moveTorch(-2000, -2000);
+});
+
 document.addEventListener('mousemove', e => {
   mx = e.clientX; my = e.clientY;
   cursorEl.style.left = mx + 'px';
@@ -872,7 +889,7 @@ function triggerIgnite(i) {
 const R_FULL = 8;
 const R_FADE = 140;
 
-const LABEL_TEXTS = ['Photography', 'ModelÂ·Paris', 'Contact', 'Archive', 'About'];
+const LABEL_TEXTS = ['Photographie', 'Modèle · Paris', 'Contact', 'Archives', 'À propos'];
 const labelFloat  = document.getElementById('z-label-float');
 const zGlowEl     = document.getElementById('z-glow');
 
@@ -970,7 +987,8 @@ const powerBtn = document.getElementById('power-btn');
 powerBtn.addEventListener('click', () => {
   powerBtn.classList.add('firing');
   const intro = $('screen-intro');
-  intro.style.transition = 'opacity 1.6s cubic-bezier(0.4,0,1,1)';
+intro.style.pointerEvents = 'none';
+intro.style.transition = 'opacity 1.6s cubic-bezier(0.4,0,1,1)';
   setTimeout(() => {
     intro.style.opacity = '0';
     setTimeout(() => {
@@ -1277,14 +1295,7 @@ document.addEventListener('contextmenu', function(e) {
   if (e.target.closest('#screen-photos')) e.preventDefault();
 });
 
-/* resume animation when tab regains focus - guarded against duplicate RAF loops */
-let _masterLoopActive = true;
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden && !_masterLoopActive) {
-    _masterLoopActive = true;
-    masterLoop();
-  }
-});
+// requestAnimationFrame auto-pauses when tab is hidden — no manual loop tracking needed.
 </script>
 </body>
 </html>
