@@ -19,6 +19,7 @@
 <link rel="canonical" href="https://leoblack55.github.io/">
 <meta name="theme-color" content="#000000">
 <meta name="robots" content="index, follow">
+<meta name="format-detection" content="telephone=no">
 <meta name="author" content="Léo">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Special+Elite&display=swap');
@@ -625,6 +626,8 @@ canvas.px-canvas {
 .model-thumb:nth-child(3) { transform: rotate( 1.0deg) translateY(-2px); }
 
 /* ââ keyboard focus ââ */
+button,[role="button"]{touch-action:manipulation;}
+
 :focus-visible {
 outline: 2px solid rgba(224,215,196,0.7);
 outline-offset: 3px;
@@ -1046,7 +1049,7 @@ function masterLoop() {
   }
   trail.forEach((p, i) => {
     const a = (1 - i / TRAIL_LEN) * 0.20;
-    p.el.style.cssText += `left:${p.x}px;top:${p.y}px;background:rgba(224,200,150,${a});`;
+    p.el.style.left=p.x+'px';p.el.style.top=p.y+'px';p.el.style.background='rgba(224,200,150,'+a+')';'
   });
 
   if (currentScreen === 'home') {
@@ -1114,7 +1117,7 @@ function showYears() {
       `<span class="year-num">0${i+1}</span>` +
       `<span class="year-text">${y.label}</span>` +
       `<span class="year-count">${y.count}&thinsp;photos</span>`;
-    div.addEventListener('click', () => showPhotos(y));
+    div.tabIndex=0;div.setAttribute('role','button');div.addEventListener('click',()=>showPhotos(y));div.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();showPhotos(y);}});
     inner.appendChild(div);
   });
   showScreen('screen-years');
@@ -1188,6 +1191,7 @@ function showPhotos(year) {
     const idx = i;
     card.addEventListener('click', () => {
       if (!veil.classList.contains('revealed')) {
+        currentPhotoIdx = idx;
         veil.classList.add('revealed');
         updateDots(idx);
         updatePbar(idx);
@@ -1274,7 +1278,7 @@ document.addEventListener('contextmenu', function(e) {
 });
 
 /* resume animation when tab regains focus - guarded against duplicate RAF loops */
-let _masterLoopActive = false;
+let _masterLoopActive = true;
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden && !_masterLoopActive) {
     _masterLoopActive = true;
