@@ -954,8 +954,8 @@ function triggerIgnite(i) {
   g.addEventListener('animationend', () => g.classList.remove('igniting'), { once: true });
 }
 
-const R_FULL = 24;
-const R_FADE = 200;
+const R_FULL = 12;
+const R_FADE = 110;
 
 const LABEL_TEXTS = ['Photographie', 'Modèle · Paris', 'Contact', 'Archives', 'À propos'];
 const labelFloat  = document.getElementById('z-label-float');
@@ -975,14 +975,8 @@ function rafLoop() {
       const d  = Math.hypot(dx, dy);
       const t  = 1 - Math.min(1, Math.max(0, (d - R_FULL) / (R_FADE - R_FULL)));
       const tgt = OPMIN[i] + (OPMAX[i] - OPMIN[i]) * t;
-      smooth[i] += (tgt - smooth[i]) * 0.05;
-      if(!isTouchOnly) {
-        zGlyphs[i].style.opacity = smooth[i];
-        const s = smooth[i];
-        zGlyphs[i].style.textShadow = s > 0.06
-          ? '0 0 ' + Math.round(s*20) + 'px rgba(214,208,194,' + (s*0.42).toFixed(2) + '),0 0 ' + Math.round(s*54) + 'px rgba(214,208,194,' + (s*0.09).toFixed(2) + ')'
-          : 'none';
-      }
+      smooth[i] += (tgt - smooth[i]) * 0.09;
+      if(!isTouchOnly) zGlyphs[i].style.opacity = smooth[i];
 
       u.classList.toggle('illuminated', d <= 4);
 
@@ -1365,7 +1359,7 @@ $('back-contact').addEventListener('click', () => showScreen('screen-home'));
 
 const isTouchOnly = window.matchMedia('(pointer: coarse)').matches;
 if (isTouchOnly) {
-  OPMAX.forEach((op, i) => { if (zGlyphs[i]) zGlyphs[i].style.opacity = op; });
+  zGlyphs.forEach((g, i) => { if (g) g.style.opacity = (OPMAX[i] * 0.42).toFixed(2); });
 }
 
 const MODEL_SHOOTS = {
