@@ -556,8 +556,88 @@ canvas.px-canvas {
   text-align: center;
 }
 
-/* ── MODEL GALLERY ── */
+/* ── MODEL ── */
 #screen-model { z-index: 10; overflow: hidden; }
+.model-comp {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; opacity: 0; pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+.model-comp.active { opacity: 1; pointer-events: auto; }
+.model-comp-left {
+  flex: 1; padding: 8vh 5vw;
+  display: flex; flex-direction: column; justify-content: center; gap: 3vh;
+}
+.model-comp-name {
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: clamp(58px,9vw,120px);
+  letter-spacing: 0.04em; line-height: 0.88;
+  color: transparent;
+  -webkit-text-stroke: 0.7px rgba(214,208,194,0.55);
+  transform: skewX(-8deg); display: inline-block;
+}
+.model-stats { display: flex; flex-direction: column; max-width: 290px; }
+.model-stat-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 1.1vh 0;
+  border-bottom: 0.5px solid rgba(214,208,194,0.07);
+  font-family: 'Special Elite', monospace;
+  font-size: 8px; letter-spacing: 0.20em; text-transform: uppercase;
+}
+.model-stat-row:first-child { border-top: 0.5px solid rgba(214,208,194,0.07); }
+.model-stat-label { color: rgba(214,208,194,0.26); }
+.model-stat-val { color: rgba(214,208,194,0.65); }
+.model-divider-line { width: 28px; height: 0.5px; background: rgba(214,208,194,0.10); }
+.model-shoot-nav { display: flex; flex-direction: column; gap: 1.2vh; }
+.model-shoot-nav-label {
+  font-family: 'Special Elite', monospace;
+  font-size: 6px; letter-spacing: 0.50em; text-transform: uppercase;
+  color: rgba(214,208,194,0.14);
+}
+.model-shoot-btns { display: flex; gap: 1.5vw; flex-wrap: wrap; }
+.model-shoot-btn {
+  font-family: 'Special Elite', monospace;
+  font-size: 7px; letter-spacing: 0.32em; text-transform: uppercase;
+  color: rgba(214,208,194,0.32); background: none;
+  border: 0.5px solid rgba(214,208,194,0.10);
+  padding: 9px 18px; cursor: none;
+  transition: color 0.3s, border-color 0.3s, background 0.3s;
+}
+.model-shoot-btn:hover {
+  color: rgba(214,208,194,0.85);
+  border-color: rgba(214,208,194,0.35);
+  background: rgba(214,208,194,0.04);
+}
+.model-comp-right {
+  width: clamp(240px,38vw,520px); flex-shrink: 0;
+  position: relative; overflow: hidden;
+}
+.model-comp-right img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  display: block; opacity: 0; transition: opacity 1.2s ease;
+}
+.model-comp-right img.loaded { opacity: 1; }
+#model-gallery-wrap {
+  position: absolute; inset: 0; z-index: 3;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+#model-gallery-wrap.active { opacity: 1; pointer-events: auto; }
+#model-gallery-back {
+  position: absolute; top: 16px; left: 20px; z-index: 6;
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: 30px; letter-spacing: 0.06em;
+  color: rgba(214,208,194,0.38); background: none; border: none;
+  cursor: none; padding: 6px 10px; transition: color 0.4s; line-height: 1;
+}
+#model-gallery-back:hover { color: rgba(214,208,194,0.82); }
+#model-gallery-title {
+  position: absolute; top: 24px; right: 24px; z-index: 6;
+  font-family: 'Special Elite', monospace;
+  font-size: 7px; letter-spacing: 0.44em; text-transform: uppercase;
+  color: rgba(214,208,194,0.18); pointer-events: none;
+}
 #model-slides {
   position: absolute; inset: 0; z-index: 2;
   display: flex;
@@ -565,54 +645,24 @@ canvas.px-canvas {
   will-change: transform;
 }
 .model-slide {
-  width: 100vw; height: 100vh;
-  flex-shrink: 0; position: relative;
-  background: #080706; overflow: hidden;
+  width: 100vw; height: 100vh; flex-shrink: 0;
+  background: #080706;
+  display: flex; align-items: center; justify-content: center;
 }
 .model-slide img {
-  width: 100%; height: 100%;
-  object-fit: cover; object-position: center top;
+  max-width: 100%; max-height: 100%;
+  object-fit: contain;
   display: block; opacity: 0;
-  transition: opacity 1.4s ease;
-  user-select: none; pointer-events: none;
+  transition: opacity 1.4s ease; pointer-events: none;
 }
 .model-slide img.loaded { opacity: 1; }
-.model-nav-zone {
-  position: absolute; top: 0; bottom: 0; width: 35%;
-  z-index: 5; cursor: none;
-}
-#model-nav-prev { left: 0; }
-#model-nav-next { right: 0; }
-#model-shoot-label {
-  position: absolute; bottom: 42px; left: 50%;
-  transform: translateX(-50%);
-  z-index: 6;
-  font-family: 'Special Elite', monospace;
-  font-size: 7px; letter-spacing: 0.44em; text-transform: uppercase;
-  color: rgba(214,208,194,0.22);
-  white-space: nowrap; pointer-events: none;
-}
-#model-dots { z-index: 6; bottom: 18px; }
-#model-info-overlay {
-  position: absolute; top: 58px; right: 24px;
-  z-index: 6; text-align: right; pointer-events: none;
-}
-.model-name-big {
-  font-family: 'Bebas Neue', Impact, sans-serif;
-  font-size: clamp(28px, 4vw, 58px);
-  letter-spacing: 0.05em; line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 0.5px rgba(214,208,194,0.28);
-  display: inline-block;
-  transform: skewX(-7deg);
-}
-.model-agency-line {
-  font-family: 'Special Elite', monospace;
-  font-size: 7px; letter-spacing: 0.40em; text-transform: uppercase;
-  color: rgba(214,208,194,0.14); margin-top: 4px;
-}
-
-/* ââ keyboard focus ââ */
+.model-nav-zone { position: absolute; top: 0; bottom: 0; width: 35%; z-index: 5; cursor: none; }
+#model-nav-prev { left: 0; } #model-nav-next { right: 0; }
+#model-dots { z-index: 6; }
+@media (pointer: coarse) {
+  #dark-veil { display: none !important; }
+  #torch { display: none !important; }
+}/* ââ keyboard focus ââ */
 button,[role="button"]{touch-action:manipulation;}
 
 :focus-visible {
@@ -727,15 +777,40 @@ outline-offset: 3px;
 <div id="screen-model" class="screen">
   <canvas id="model-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:1;opacity:0.78;"></canvas>
   <button class="back-btn" id="back-model" aria-label="Retour à l'accueil">&larr;&nbsp;&nbsp;zzz</button>
-    <div id="model-slides"></div>
-  <div id="model-nav-prev" class="model-nav-zone" aria-label="Photo précédente"></div>
-  <div id="model-nav-next" class="model-nav-zone" aria-label="Photo suivante"></div>
-  <div class="dot-row" id="model-dots"></div>
-  <div id="model-shoot-label"></div>
-  <div id="model-info-overlay">
-    <div class="model-name-big">L&eacute;o</div>
-    <div class="model-agency-line">Mod&egrave;le &middot; Paris</div>
+  <div class="model-comp active" id="model-comp">
+    <div class="model-comp-left">
+      <div class="model-comp-name">L&eacute;o</div>
+      <div class="model-stats">
+        <div class="model-stat-row"><span class="model-stat-label">Taille</span><span class="model-stat-val">185 cm</span></div>
+        <div class="model-stat-row"><span class="model-stat-label">Poitrine</span><span class="model-stat-val">89 cm</span></div>
+        <div class="model-stat-row"><span class="model-stat-label">Tour de taille</span><span class="model-stat-val">74 cm</span></div>
+        <div class="model-stat-row"><span class="model-stat-label">Hanches</span><span class="model-stat-val">94 cm</span></div>
+        <div class="model-stat-row"><span class="model-stat-label">Pointure</span><span class="model-stat-val">43</span></div>
+        <div class="model-stat-row"><span class="model-stat-label">Cheveux</span><span class="model-stat-val">Bruns</span></div>
+        <div class="model-stat-row"><span class="model-stat-label">Yeux</span><span class="model-stat-val">Marrons</span></div>
+      </div>
+      <div class="model-divider-line"></div>
+      <div class="model-shoot-nav">
+        <div class="model-shoot-nav-label">Shootings</div>
+        <div class="model-shoot-btns">
+          <button class="model-shoot-btn" data-shoot="toronto-stud">Toronto Studio</button>
+          <button class="model-shoot-btn" data-shoot="mrs">Paris</button>
+        </div>
+      </div>
+    </div>
+    <div class="model-comp-right">
+      <img id="model-portrait" src="" alt="Portrait" draggable="false">
+    </div>
   </div>
+  <div id="model-gallery-wrap">
+    <button id="model-gallery-back">&larr;&nbsp;&nbsp;mannequinat</button>
+    <div id="model-gallery-title"></div>
+    <div id="model-slides"></div>
+    <div id="model-nav-prev" class="model-nav-zone"></div>
+    <div id="model-nav-next" class="model-nav-zone"></div>
+    <div class="dot-row" id="model-dots"></div>
+  </div>
+
 </div>
 
 <script>
@@ -877,7 +952,7 @@ function rafLoop() {
       const t  = 1 - Math.min(1, Math.max(0, (d - R_FULL) / (R_FADE - R_FULL)));
       const tgt = OPMIN[i] + (OPMAX[i] - OPMIN[i]) * t;
       smooth[i] += (tgt - smooth[i]) * 0.12;
-      zGlyphs[i].style.opacity = smooth[i];
+      if(!isTouchOnly) zGlyphs[i].style.opacity = smooth[i];
 
       u.classList.toggle('illuminated', d <= 4);
 
@@ -1240,81 +1315,154 @@ touchStartX = e.touches[0].clientX;
 touchStartY = e.touches[0].clientY;
 }, { passive: true });
 document.addEventListener('touchend', e => {
-if (currentScreen !== 'photos' && currentScreen !== 'model') return;
-const dx = e.changedTouches[0].clientX - touchStartX;
-const dy = e.changedTouches[0].clientY - touchStartY;
-if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
-if (currentScreen === 'model') {
-if (dx < 0) goToModelPhoto(modelIdx + 1);
-else goToModelPhoto(modelIdx - 1);
-} else {
-if (dx < 0) goToPhoto(currentPhotoIdx + 1);
-else goToPhoto(currentPhotoIdx - 1);
-}
-}
+  if (currentScreen !== 'photos' && currentScreen !== 'model') return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+    if (currentScreen === 'model' && currentShootKey) {
+      if (dx < 0) goToModelPhoto(modelIdx + 1);
+      else goToModelPhoto(modelIdx - 1);
+    } else if (currentScreen === 'photos') {
+      if (dx < 0) goToPhoto(currentPhotoIdx + 1);
+      else goToPhoto(currentPhotoIdx - 1);
+    }
+  }
 }, { passive: true });
+
 
 function showContact() { const cc = $('contact-canvas'); if (cc && !cc._grain) { makeGrain(cc); cc._grain = true; } showScreen('screen-contact'); }
 $('back-contact').addEventListener('click', () => showScreen('screen-home'));
 
-const MODEL_PHOTOS = [
-  {id:'1UbqyMxs6zpTXIZ54mvVq4An88KhXwr6X',shoot:'Toronto · Studio'},
-  {id:'1ec5qKHkWAaKe47vq6EXCaVL9ZqKKq2Bp',shoot:'Toronto · Studio'},
-  {id:'1TmJ4-mbN7aoYXrFa9ghz7Woz6bdvjXVT',shoot:'Toronto · Studio'},
-  {id:'1LnsW4prBpkMoPpHPbreSxQjqXphpLzii',shoot:'Toronto · Studio'},
-  {id:'1Bf3y_8W6ZetV-calEU8dEyruwx2mxnXk',shoot:'Toronto · Studio'},
-  {id:'1hxoCBi_3HpDK2SI1z0MUWSGqX5yw5J6q',shoot:'Toronto · Studio'},
-  {id:'1u8MiO6gIQqy-n1C4QhWeFOwlM7IMQo91',shoot:'Toronto · Studio'},
-  {id:'1tNQ3DowebXr5FD-SY51oJ04oLN1Ei3Q4',shoot:'Toronto · Studio'},
-  {id:'1xj5HGx6ZGuAgynfzGjX3XUySpjTFjNyp',shoot:'Toronto · Studio'},
-  {id:'1iJygmJeI9r_Zf2dgXzM4Pb-CZp_n2cks',shoot:'Toronto · Film'},
-  {id:'1vwkZozqmkbw5FKKKLrSeVJMrKuMZY8na',shoot:'Toronto · Film'},
-  {id:'1E0S2nPrwZnACw9v1iyDCnJ-RIK56Mtn-',shoot:'Paris'},
-  {id:'1FsORJrcgdmbDzPxIiO_Ly--5p_o82TX_',shoot:'Paris'},
-  {id:'1SNwUew8mIUcu-7bpPIrHm2da8mRONx3q',shoot:'Paris'},
-  {id:'1NRFmH1zFAqDVlyHgwp00TzStkDzyqdwb',shoot:'Paris'},
-  {id:'1adnSZDVufPHvjE8JH9C9i3R284xgTx6Q',shoot:'Paris · Argentique'},
-  {id:'1VLiXJbXs1uY0xxAhlO36oDPWNNJ8D1U_',shoot:'Paris · Argentique'},
-];
-let modelIdx=0,modelBuilt=false;
-function buildModelSlides(){
-  if(modelBuilt)return;modelBuilt=true;
-  const sl=$('model-slides'),dt=$('model-dots');
-  sl.innerHTML='';dt.innerHTML='';
-  MODEL_PHOTOS.forEach((ph,i)=>{
-    const slide=document.createElement('div');slide.className='model-slide';
-    const img=document.createElement('img');
-    img.src='https://drive.google.com/thumbnail?id='+ph.id+'&sz=w1920';
-    img.alt='Shoot '+ph.shoot+' — '+(i+1);img.draggable=false;
-    img.addEventListener('load',()=>img.classList.add('loaded'));
-    slide.appendChild(img);sl.appendChild(slide);
-    const d=document.createElement('div');d.className='dot'+(i===0?' on':'');dt.appendChild(d);
+const isTouchOnly = window.matchMedia('(pointer: coarse)').matches;
+if (isTouchOnly) {
+  OPMAX.forEach((op, i) => { if (zGlyphs[i]) zGlyphs[i].style.opacity = op; });
+}
+
+const MODEL_SHOOTS = {
+  'toronto-stud': {
+    label: 'SHOOT TORONTO STUD',
+    photos: [
+      '1TmJ4-mbN7aoYXrFa9ghz7Woz6bdvjXVT','1ZASMOj6gLvuX3pUI5uJykBopknaWqRAR',
+      '1NhMGhtDHXYdmP4J98kjnNq8RQOyyQrs-','1iPRpCLlS41nUCa-s9vafbhulae9Aeyze',
+      '1pUeIxjbEV6PsKlBhnekmHUERmPd8JW5n','1UFW1kwIv26dOXr5lXFpr9qOpYSmJatku',
+      '1tdkund3tSgecgUN_Y6MqJcRbIRJNtDvK','1f1852eog7l2x1Gu27jecauNS_MWWWuIQ',
+      '1ec5qKHkWAaKe47vq6EXCaVL9ZqKKq2Bp','1UbqyMxs6zpTXIZ54mvVq4An88KhXwr6X',
+      '17QArB8xMRy2d7CqxXNs-l2JDGQ8AG9rf','1LnsW4prBpkMoPpHPbreSxQjqXphpLzii',
+      '1Bf3y_8W6ZetV-calEU8dEyruwx2mxnXk','14llTk-5PcH0gqIxjU-jXRjKu4sIURObC',
+      '1Ah-21zwEkevfR_6nd-dhID70SdnNFBPT','1Vb3k0v7OvFbjsMZGzDSywuHsZK-LF81T',
+      '1hxoCBi_3HpDK2SI1z0MUWSGqX5yw5J6q','1X3tbRYuzMftIaJ1MCOAErVYpgDghd_p2',
+      '1xj5HGx6ZGuAgynfzGjX3XUySpjTFjNyp','1tNQ3DowebXr5FD-SY51oJ04oLN1Ei3Q4',
+      '1u8MiO6gIQqy-n1C4QhWeFOwlM7IMQo91','1sAk0Knlfo6cTnI3fjpzAMiknYcpyj8x4',
+      '1vQ_p8xqkfvtOD4kAcqsDhnV-kuvJjHix','1yfv_6Wpzo-dnMDtoENfMu3OSnupMkxS7',
+      '1Mw-owR90-o4dVh3RBifjiLNodu8nsgvq','1XxO7Kj1l1b2RKg89bb-1_It0UcSjMSdr',
+      '1dkBz6htZblZ4-QWNQ6RA50MdcmYSu0Ws','1qTSEEN_BIobspDR9FQCo44VZB_aCYuZe',
+      '1IUYh6sKD7PK9Z6_Ff1y7WGwd-t0P4fIn','1725j-RH7dGJAJ8hoNxPfVLIXBKohVa_G',
+      '1vwkZozqmkbw5FKKKLrSeVJMrKuMZY8na','1iJygmJeI9r_Zf2dgXzM4Pb-CZp_n2cks',
+      '1E1Brm43UVSr0b7J7b0KeyCNKCHYwbIgG','17UNYse09Ifsvlx7wxxEonClBE9YftWWO',
+      '1BtJu5zELl59n59WP-DjtpAJY6Pulxh02','1cR8AY7aWikp_-9DbTsUA2bUa1cVUoq8Z',
+      '1rsMCH9vwiRAE2kmV_GwF7XZO12PR6KEJ','1yikGKLC5VGybRb6c5ocMtKiiJJP1zI7H',
+      '1IIPImRGhXpPH2FWD6rd4O6uIOk_OueG1','1r8LcMx1MeBFKl9YdRwA6PgA9o9ZIMesG'
+    ]
+  },
+  'mrs': {
+    label: 'SHOOT MRS',
+    photos: [
+      '1Rr3oIBla3yq6UGDeHGf-Vnhw2xAvjJnF','1umCHvZXmPOfEnziUrgRGzvXDEOATPFgA',
+      '1Lii8OnNrlp7LujFdg-df2NUUklFRFcSX','1vJ2kEmbFdusxaOdii3-mZcJgjCg2iBEE',
+      '1_q9_EqQHpLPyO6dZgePiLjMm1L4rvtiN','1NRFmH1zFAqDVlyHgwp00TzStkDzyqdwb',
+      '1E0S2nPrwZnACw9v1iyDCnJ-RIK56Mtn-','1aDG1CTRRv7BazZKwV5Khvq8vJVlMYS3R',
+      '1FsORJrcgdmbDzPxIiO_Ly--5p_o82TX_','1SNwUew8mIUcu-7bpPIrHm2da8mRONx3q',
+      '1SoQHkOmMSrsL71wXa3CQdf4kvqNfmEob','1n9_sXnHF7_bAPEM1Xi1sIDRUEG7ClRDg',
+      '1clVKpkAwFP9D_srZF9ItNS4eu1EAeKoh','19mUt6dhvaQS2gInlHLzRtaqWKmtmrak4',
+      '1Q_pgdAM6mAjR-8mlFhxFbYLVBNZTumru','1p5s1wtSIBXRPu8J2ck5Yp9cB9NZv7DTc',
+      '1adnSZDVufPHvjE8JH9C9i3R284xgTx6Q','1r8fNVOvMOZGQlz97aY6VmPpgsC7zS_qQ',
+      '1D9L0j85xdYIwbCqohkL90CXoY5iQtQzz','1WayTFkC0efYUIcharfrB_HsVI9Y11HBE',
+      '1cIGKYoNFhiM67pSoKvxc8v9reDOasybj','1qDcZn0yp1bN_XY-jJ6R_Uaa5sJp7g_kr',
+      '1lBjq11d0MV5xo1Bc88dC3V71ZbmnWVl5','1zXrqciIbxY5StZOYvD3uUzMTXb1Uc0Xy',
+      '1PyBmNjE2aQNPKfopwV2vmRLmpvGVhw-U','1VLiXJbXs1uY0xxAhlO36oDPWNNJ8D1U_',
+      '1h4m8wnivkjvnRKNMArRPLtt7MBHMAGaG','1j7thdWLmYCBflV4oAVbxwimKyPpFDLsk',
+      '1gkAczM8FNjPyxIt_jsGi7_OwZmMcF9Ex','1SrYw3mZtcLrCKeroF8YMmseq8SPZiJD-',
+      '1TIx1LNwgA8_MPf-T_kEHbutYZPQjzEn8','12DEglQubRAO8LuFUG7UnRuYz4wCFRZDG',
+      '1-2AkP8Obf-RMZ2ofIBX2OnZyAp2mMwJJ','1R2yQotdbPbW-lo9lMMzTT88O2-jQN-9j'
+    ]
+  }
+};
+let modelIdx = 0, currentShootKey = null;
+function showModelGallery(shootKey) {
+  currentShootKey = shootKey;
+  modelIdx = 0;
+  const shoot = MODEL_SHOOTS[shootKey];
+  const sl = $('model-slides'), dt = $('model-dots');
+  sl.innerHTML = '';
+  dt.innerHTML = '';
+  sl.style.transform = 'translateX(0)';
+  shoot.photos.forEach((id, i) => {
+    const s = document.createElement('div');
+    s.className = 'model-slide';
+    const img = document.createElement('img');
+    img.src = 'https://drive.google.com/thumbnail?id=' + id + '&sz=w1920';
+    img.alt = shoot.label + ' ' + (i + 1);
+    img.draggable = false;
+    img.addEventListener('load', () => img.classList.add('loaded'));
+    s.appendChild(img);
+    sl.appendChild(s);
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' on' : '');
+    dt.appendChild(d);
   });
+  const tEl = $('model-gallery-title');
+  if (tEl) tEl.textContent = shoot.label;
+  $('model-comp').classList.remove('active');
+  $('model-gallery-wrap').classList.add('active');
 }
-function goToModelPhoto(idx){
-  if(idx<0||idx>=MODEL_PHOTOS.length)return;
-  modelIdx=idx;
-  $('model-slides').style.transform='translateX(-'+(idx*100)+'vw)';
-  document.querySelectorAll('#model-dots .dot').forEach((d,i)=>d.classList.toggle('on',i===idx));
-  const sl=$('model-shoot-label');if(sl)sl.textContent=MODEL_PHOTOS[idx].shoot;
+function goToModelPhoto(idx) {
+  if (!currentShootKey) return;
+  const total = MODEL_SHOOTS[currentShootKey].photos.length;
+  if (idx < 0 || idx >= total) return;
+  modelIdx = idx;
+  $('model-slides').style.transform = 'translateX(-' + (idx * 100) + 'vw)';
+  document.querySelectorAll('#model-dots .dot').forEach((d, i) => d.classList.toggle('on', i === idx));
 }
-function showModel(){const mc=$('model-canvas');if(mc&&!mc._grain){makeGrain(mc);mc._grain=true;}buildModelSlides();goToModelPhoto(0);showScreen('screen-model');}
-$('back-model').addEventListener('click',()=>showScreen('screen-home'));
-$('model-nav-prev').addEventListener('click',()=>goToModelPhoto(modelIdx-1));
-$('model-nav-next').addEventListener('click',()=>goToModelPhoto(modelIdx+1));
+function showModel() {
+  $('model-comp').classList.add('active');
+  $('model-gallery-wrap').classList.remove('active');
+  currentShootKey = null;
+  const portrait = $('model-portrait');
+  if (portrait && !portrait.src.includes('drive.google.com')) {
+    portrait.src = 'https://drive.google.com/thumbnail?id=1LnsW4prBpkMoPpHPbreSxQjqXphpLzii&sz=w1200';
+    portrait.addEventListener('load', () => portrait.classList.add('loaded'), {once: true});
+  }
+  showScreen('screen-model');
+}
+$('back-model').addEventListener('click', () => showScreen('screen-home'));
+$('model-gallery-back').addEventListener('click', () => {
+  $('model-gallery-wrap').classList.remove('active');
+  $('model-comp').classList.add('active');
+  currentShootKey = null;
+});
+$('model-nav-prev').addEventListener('click', () => goToModelPhoto(modelIdx - 1));
+$('model-nav-next').addEventListener('click', () => goToModelPhoto(modelIdx + 1));
+document.querySelectorAll('.model-shoot-btn').forEach(btn => {
+  btn.addEventListener('click', () => showModelGallery(btn.dataset.shoot));
+});
 document.addEventListener('keydown', e => {
-if (e.key === 'Escape') {
-if (currentScreen === 'photos') { showYears(); return; }
-if (currentScreen !== 'home' && currentScreen !== 'intro') showScreen('screen-home');
-}
-if (currentScreen === 'photos') {
-if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goToPhoto(currentPhotoIdx + 1);
-if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goToPhoto(currentPhotoIdx - 1);
-}
-if (currentScreen === 'model') {
-if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goToModelPhoto(modelIdx + 1);
-if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goToModelPhoto(modelIdx - 1);
-}
+  if (e.key === 'Escape') {
+    if (currentScreen === 'photos') { showYears(); return; }
+    if (currentScreen === 'model' && currentShootKey) {
+      $('model-gallery-wrap').classList.remove('active');
+      $('model-comp').classList.add('active');
+      currentShootKey = null; return;
+    }
+    if (currentScreen !== 'home' && currentScreen !== 'intro') showScreen('screen-home');
+  }
+  if (currentScreen === 'photos') {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goToPhoto(currentPhotoIdx + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goToPhoto(currentPhotoIdx - 1);
+  }
+  if (currentScreen === 'model' && currentShootKey) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goToModelPhoto(modelIdx + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goToModelPhoto(modelIdx - 1);
+  }
 });
 
 let _resizeTimer;
