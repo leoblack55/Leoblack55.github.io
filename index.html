@@ -594,20 +594,23 @@ canvas.px-canvas {
   font-size: 6px; letter-spacing: 0.50em; text-transform: uppercase;
   color: rgba(214,208,194,0.14);
 }
-.model-shoot-btns { display: flex; gap: 1.5vw; flex-wrap: wrap; }
+.model-shoot-btns { display: flex; flex-direction: column; gap: 0.5vh; }
 .model-shoot-btn {
-  font-family: 'Special Elite', monospace;
-  font-size: 7px; letter-spacing: 0.32em; text-transform: uppercase;
-  color: rgba(214,208,194,0.32); background: none;
-  border: 0.5px solid rgba(214,208,194,0.10);
-  padding: 9px 18px; cursor: none;
-  transition: color 0.3s, border-color 0.3s, background 0.3s;
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: clamp(24px, 3.2vw, 48px); letter-spacing: 0.10em;
+  color: rgba(214,208,194,0.18); background: none; border: none;
+  cursor: none; padding: 2px 0; text-align: left;
+  position: relative; display: inline-block;
+  transition: color 0.6s ease; line-height: 1.1;
 }
-.model-shoot-btn:hover {
-  color: rgba(214,208,194,0.85);
-  border-color: rgba(214,208,194,0.35);
-  background: rgba(214,208,194,0.04);
+.model-shoot-btn::after {
+  content: ''; position: absolute; left: 0; bottom: 0;
+  width: 0; height: 0.5px;
+  background: rgba(214,208,194,0.45);
+  transition: width 0.65s cubic-bezier(0.16,1,0.3,1);
 }
+.model-shoot-btn:hover { color: rgba(214,208,194,0.72); }
+.model-shoot-btn:hover::after { width: 100%; }
 .model-comp-right {
   width: clamp(240px,38vw,520px); flex-shrink: 0;
   position: relative; overflow: hidden;
@@ -659,6 +662,27 @@ canvas.px-canvas {
 .model-nav-zone { position: absolute; top: 0; bottom: 0; width: 35%; z-index: 5; cursor: none; }
 #model-nav-prev { left: 0; } #model-nav-next { right: 0; }
 #model-dots { z-index: 6; }
+/* ── comp card entry ── */
+.model-comp.active .model-comp-name {
+  animation: compNameIn 1.2s cubic-bezier(0.16,1,0.3,1) 0.05s both;
+}
+.model-comp.active .model-stat-row:nth-child(1) { animation: compRowIn 0.55s ease 0.12s both; }
+.model-comp.active .model-stat-row:nth-child(2) { animation: compRowIn 0.55s ease 0.20s both; }
+.model-comp.active .model-stat-row:nth-child(3) { animation: compRowIn 0.55s ease 0.28s both; }
+.model-comp.active .model-stat-row:nth-child(4) { animation: compRowIn 0.55s ease 0.36s both; }
+.model-comp.active .model-stat-row:nth-child(5) { animation: compRowIn 0.55s ease 0.44s both; }
+.model-comp.active .model-stat-row:nth-child(6) { animation: compRowIn 0.55s ease 0.52s both; }
+.model-comp.active .model-stat-row:nth-child(7) { animation: compRowIn 0.55s ease 0.60s both; }
+.model-comp.active .model-divider-line { animation: compRowIn 0.5s ease 0.65s both; }
+.model-comp.active .model-shoot-nav { animation: compRowIn 0.7s ease 0.72s both; }
+@keyframes compNameIn {
+  from { opacity: 0; transform: skewX(-8deg) translateY(22px); }
+  to   { opacity: 1; transform: skewX(-8deg) translateY(0); }
+}
+@keyframes compRowIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
 @media (pointer: coarse) {
   #dark-veil { display: none !important; }
   #torch { display: none !important; }
@@ -777,7 +801,7 @@ outline-offset: 3px;
 <div id="screen-model" class="screen">
   <canvas id="model-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:1;opacity:0.78;"></canvas>
   <button class="back-btn" id="back-model" aria-label="Retour à l'accueil">&larr;&nbsp;&nbsp;zzz</button>
-  <div class="model-comp active" id="model-comp">
+  <div class="model-comp" id="model-comp">
     <div class="model-comp-left">
       <div class="model-comp-name">L&eacute;o</div>
       <div class="model-stats">
@@ -930,8 +954,8 @@ function triggerIgnite(i) {
   g.addEventListener('animationend', () => g.classList.remove('igniting'), { once: true });
 }
 
-const R_FULL = 8;
-const R_FADE = 140;
+const R_FULL = 24;
+const R_FADE = 200;
 
 const LABEL_TEXTS = ['Photographie', 'Modèle · Paris', 'Contact', 'Archives', 'À propos'];
 const labelFloat  = document.getElementById('z-label-float');
@@ -951,8 +975,14 @@ function rafLoop() {
       const d  = Math.hypot(dx, dy);
       const t  = 1 - Math.min(1, Math.max(0, (d - R_FULL) / (R_FADE - R_FULL)));
       const tgt = OPMIN[i] + (OPMAX[i] - OPMIN[i]) * t;
-      smooth[i] += (tgt - smooth[i]) * 0.12;
-      if(!isTouchOnly) zGlyphs[i].style.opacity = smooth[i];
+      smooth[i] += (tgt - smooth[i]) * 0.05;
+      if(!isTouchOnly) {
+        zGlyphs[i].style.opacity = smooth[i];
+        const s = smooth[i];
+        zGlyphs[i].style.textShadow = s > 0.06
+          ? '0 0 ' + Math.round(s*20) + 'px rgba(214,208,194,' + (s*0.42).toFixed(2) + '),0 0 ' + Math.round(s*54) + 'px rgba(214,208,194,' + (s*0.09).toFixed(2) + ')'
+          : 'none';
+      }
 
       u.classList.toggle('illuminated', d <= 4);
 
@@ -1424,7 +1454,10 @@ function goToModelPhoto(idx) {
   document.querySelectorAll('#model-dots .dot').forEach((d, i) => d.classList.toggle('on', i === idx));
 }
 function showModel() {
-  $('model-comp').classList.add('active');
+  const mc = $('model-comp');
+  mc.classList.remove('active');
+  void mc.offsetWidth;
+  mc.classList.add('active');
   $('model-gallery-wrap').classList.remove('active');
   currentShootKey = null;
   const portrait = $('model-portrait');
@@ -1437,7 +1470,10 @@ function showModel() {
 $('back-model').addEventListener('click', () => showScreen('screen-home'));
 $('model-gallery-back').addEventListener('click', () => {
   $('model-gallery-wrap').classList.remove('active');
-  $('model-comp').classList.add('active');
+  const mc2 = $('model-comp');
+  mc2.classList.remove('active');
+  void mc2.offsetWidth;
+  mc2.classList.add('active');
   currentShootKey = null;
 });
 $('model-nav-prev').addEventListener('click', () => goToModelPhoto(modelIdx - 1));
