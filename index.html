@@ -25,6 +25,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Special+Elite&display=swap');
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html {
+  scroll-behavior: smooth;
+}
+
 
 html, body {
   width: 100%; height: 100%;
@@ -687,11 +691,40 @@ canvas.px-canvas {
   #torch { display: none !important; }
   .strip-photo { width: 90vw; }
 }
+
+/* Accessibility: respect user's motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Skip link for keyboard navigation */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: #fff;
+  color: #000;
+  padding: 0.5rem 1rem;
+  z-index: 9999;
+  font-family: inherit;
+  font-size: 0.875rem;
+  text-decoration: none;
+  border-bottom-right-radius: 4px;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0;
+}
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Léo","jobTitle":"Modèle & Photographe","address":{"@type":"PostalAddress","addressLocality":"Paris","addressCountry":"FR"},"url":"https://leoblack55.github.io/"}
 </script>
 </head>
+<a href="#main-content" class="skip-link">Aller au contenu principal</a>
 <body>
 
 <div id="hatch"></div>
@@ -701,7 +734,7 @@ canvas.px-canvas {
 
 <div id="screen-intro" class="screen active">
   <canvas id="dust-canvas"></canvas>
-  <button id="power-btn" aria-label="Entrer">
+  <button type="button" id="power-btn" aria-label="Entrer">
     <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2.8" stroke-linecap="round">
       <line x1="24" y1="10" x2="24" y2="24"/>
       <path d="M17 14.5A12 12 0 1 0 31 14.5"/>
@@ -745,13 +778,13 @@ canvas.px-canvas {
 <div id="screen-years" class="screen">
   <canvas id="years-canvas"></canvas>
   <div class="years-inner" id="years-inner">
-    <button class="back-btn" id="back-years" aria-label="Retour à l'accueil">&larr;&nbsp;&nbsp;zzz</button>
+    <button type="button" class="back-btn" id="back-years" aria-label="Retour à l'accueil">&larr;&nbsp;&nbsp;zzz</button>
   </div>
 </div>
 
 <div id="screen-photos" class="screen">
   <canvas id="photos-canvas"></canvas>
-  <button class="back-btn" id="back-photos" aria-label="Retour aux années">&larr;&nbsp;&nbsp;ann&eacute;es</button>
+  <button type="button" class="back-btn" id="back-photos" aria-label="Retour aux années">&larr;&nbsp;&nbsp;ann&eacute;es</button>
   <div class="strip-outer">
     <div class="strip-inner" id="strip"></div>
   </div>
@@ -763,7 +796,7 @@ canvas.px-canvas {
 
 <div id="screen-contact" class="screen">
   <canvas id="contact-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:1;opacity:0.78;"></canvas>
-  <button class="back-btn" id="back-contact" aria-label="Retour à l'accueil">&larr;&nbsp;&nbsp;zzz</button>
+  <button type="button" class="back-btn" id="back-contact" aria-label="Retour à l'accueil">&larr;&nbsp;&nbsp;zzz</button>
   <div class="contact-inner">
     <div class="contact-name">l&eacute;o</div>
   </div>
@@ -771,7 +804,7 @@ canvas.px-canvas {
 
 <div id="screen-model" class="screen">
   <canvas id="model-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:1;opacity:0.78;"></canvas>
-  <button class="back-btn" id="back-model" aria-label="Retour à l'accueil">&larr;&nbsp;&nbsp;zzz</button>
+  <button type="button" class="back-btn" id="back-model" aria-label="Retour à l'accueil">&larr;&nbsp;&nbsp;zzz</button>
   <div class="model-comp" id="model-comp">
     <div class="model-comp-left">
       <div class="model-section-label">Mannequinat</div>
@@ -788,17 +821,17 @@ canvas.px-canvas {
       <div class="model-shoot-nav">
         <div class="model-shoot-nav-label">Shootings</div>
         <div class="model-shoot-btns">
-          <button class="model-shoot-btn" data-shoot="toronto-stud">Toronto Studio</button>
-          <button class="model-shoot-btn" data-shoot="mrs">Paris</button>
+          <button type="button" class="model-shoot-btn" data-shoot="toronto-stud">Toronto Studio</button>
+          <button type="button" class="model-shoot-btn" data-shoot="mrs">Paris</button>
         </div>
       </div>
     </div>
     <div class="model-comp-right">
-      <img id="model-portrait" src="" alt="Portrait" draggable="false">
+      <img loading="lazy" id="model-portrait" src="" alt="Portrait" draggable="false">
     </div>
   </div>
   <div id="model-gallery-wrap">
-    <button id="model-gallery-back">&larr;&nbsp;&nbsp;mannequinat</button>
+    <button type="button" id="model-gallery-back">&larr;&nbsp;&nbsp;mannequinat</button>
     <div id="model-gallery-title"></div>
     <div id="model-strip"></div>
   </div>
